@@ -36,10 +36,6 @@ app.post('/update', function (req, res) {
                 }
             }
         }
-        console.log("Sent time: ", req.body.after)
-        // console.log("latest images :" + latest_images);
-       
-        console.log("Response Data: ", responseData)
         res.send(responseData);
     });
 });
@@ -51,9 +47,7 @@ app.get('/index', function (req, res) {
     fs.readdir(path, function (err, items) {
         for (let pic in items) {
             let filename = items[pic];
-            let modified = fs.statSync(path + "/" + filename).mtimeMs;
-            console.log("modified", modified);
-            
+            let modified = fs.statSync(path + "/" + filename).mtimeMs;  
         }
         res.render('index', {
             title: 'Kenziegram',

@@ -1,13 +1,14 @@
+const container = document.getElementById("content");
+const uploadButton = document.getElementById("upload");
 let now = Date.now();
-const container = document.getElementById("content")
-const uploadButton = document.getElementById("upload")
+let interval = 5000;
+let errors = 0;
 
 function print(arr) {
     arr.forEach(element => {
         let img = document.createElement('img')
         img.src = element;
         container.appendChild(img)
-        console.log(element)
     });
 }
 
@@ -29,7 +30,12 @@ function fetchImages() {
                 print(data.images);
             }
             return now = data.timestamp
-        })
+        }).catch(function(error) {
+            errors++
+            if (errors == 2) {
+                clearInterval(exicutionTimer)
+            }
+          });
 
 }
-setInterval(fetchImage, 5000);
+var exicutionTimer = setInterval(fetchImages, interval);
