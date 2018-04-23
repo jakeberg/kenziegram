@@ -5,10 +5,11 @@ html
   body
   header
     h1= message
-  form(action="http://localhost:3000/upload" method="post" enctype="multipart/form-data")
-      input(type="file" id="file" name="myFile" value="file")
-      input(type="submit" class="button" id="upload" value="upload")
+  form(action="/upload" method="post" enctype="multipart/form-data")
+    input(type="file" id="file" name="myFile" value="file")
+    input(type="submit" class="button" id="upload" value="upload")
   div(class='content')
     each photo in url
       img(src= photo)
+  script(src="index.js")
 
