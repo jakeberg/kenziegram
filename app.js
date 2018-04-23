@@ -15,27 +15,33 @@ app.use(express.static('public'));
 app.use(express.static('./public/uploads/'));
 app.use(express.json());
 
-let latest_images = {
-    "images": [],
-    "timestamp": ''
-};
+const responseData = {
+    images: [],
+    timestamp: 0
+}
 
 app.post('/update', function (req, res) {
     res.statusCode = 200;
     const path = './public/uploads';
 
     fs.readdir(path, function (err, items) {
-        for (var pic in items) {
-            let filename = items[pic]
-            var updatedTime = fs.statSync(path + "/" + filename).mtimeMs;
-            if (updatedTime > req.body.usertime) {
-                latest_images.images.push(filename);
-                latest_images.timestamp = updatedTime;
-                console.log(latest_images);
+        responseData.images = [];
+        for (let pic in items) {
+            let filename = items[pic];
+            let modified = fs.statSync(path + "/" + filename).mtimeMs;
+            if (modified > req.body.after) {
+                responseData.images.push(filename);
+                if(modified > responseData.timestamp){
+                    responseData.timestamp = modified
+                }
             }
         }
+        console.log("Sent time: ", req.body.after)
+        // console.log("latest images :" + latest_images);
+       
+        console.log("Response Data: ", responseData)
+        res.send(responseData);
     });
-    res.send(latest_images);
 });
 
 app.get('/index', function (req, res) {
@@ -43,10 +49,16 @@ app.get('/index', function (req, res) {
     const path = './public/uploads';
 
     fs.readdir(path, function (err, items) {
+        for (let pic in items) {
+            let filename = items[pic];
+            let modified = fs.statSync(path + "/" + filename).mtimeMs;
+            console.log("modified", modified);
+            
+        }
         res.render('index', {
             title: 'Kenziegram',
             message: 'Kenziegram',
-            url: items,
+            images: items,
         });
     });
 });

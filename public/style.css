@@ -38,14 +38,14 @@ form{
     border-radius: 5px;
 }
 
-.content {
+#content {
     width: 60%;
     margin: 20px auto;
     display: flex;
     flex-direction: column;
 }
 
-.content img {
+#content img {
     width: 75%;
     margin: 5px auto;
 }

@@ -8,8 +8,8 @@ html
   form(action="/upload" method="post" enctype="multipart/form-data")
     input(type="file" id="file" name="myFile" value="file")
     input(type="submit" class="button" id="upload" value="upload")
-  div(class='content')
-    each photo in url
+  div(id='content')
+    each photo in images
       img(src= photo)
   script(src="index.js")
 

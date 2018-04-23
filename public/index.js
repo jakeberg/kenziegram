@@ -1,6 +1,15 @@
-var now = Date.now();
-const container = document.getElementsByClassName("content")
+let now = Date.now();
+const container = document.getElementById("content")
 const uploadButton = document.getElementById("upload")
+
+function print(arr) {
+    arr.forEach(element => {
+        let img = document.createElement('img')
+        img.src = element;
+        container.appendChild(img)
+        console.log(element)
+    });
+}
 
 function fetchImages() {
 
@@ -10,15 +19,17 @@ function fetchImages() {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            usertime: now,
+            after: now,
         })
     }
     fetch("/update", postOptions)
         .then(response => response.json())
         .then(data => {
-            console.log(data)
+            if (data.timestamp > now) {
+                print(data.images);
+            }
+            return now = data.timestamp
         })
 
-    setTimeout(fetchImages, 5000);
 }
-fetchImages(); 
+setInterval(fetchImage, 5000);
