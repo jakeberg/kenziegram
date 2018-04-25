@@ -20,6 +20,7 @@ const responseData = {
     timestamp: 0
 }
 
+
 app.post('/update', function (req, res) {
     res.statusCode = 200;
     const path = './public/uploads';

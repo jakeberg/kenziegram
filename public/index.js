@@ -29,6 +29,9 @@ function fetchImages() {
             if (data.timestamp > now) {
                 print(data.images);
             }
+
+            // I reset the error counter to 0 here
+            errors = 0
             return now = data.timestamp
         }).catch(function(error) {
             errors++
@@ -36,6 +39,6 @@ function fetchImages() {
                 clearInterval(exicutionTimer)
             }
           });
-
+          console.log(errors)
 }
 var exicutionTimer = setInterval(fetchImages, interval);
