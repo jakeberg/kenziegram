@@ -4,10 +4,9 @@ const fs = require('fs');
 const upload = multer({
     dest: 'public/uploads/'
 })
-const port = 3000;
+const port = process.env.PORT || 3000;
 const app = express();
 const uploaded_files = [];
-
 
 app.set('view engine', 'pug');
 app.set('views', './public/views')
@@ -20,7 +19,6 @@ const responseData = {
     timestamp: 0
 }
 
-
 app.post('/update', function (req, res) {
     res.statusCode = 200;
     const path = './public/uploads';
@@ -32,7 +30,7 @@ app.post('/update', function (req, res) {
             let modified = fs.statSync(path + "/" + filename).mtimeMs;
             if (modified > req.body.after) {
                 responseData.images.push(filename);
-                if(modified > responseData.timestamp){
+                if (modified > responseData.timestamp) {
                     responseData.timestamp = modified
                 }
             }
@@ -48,7 +46,7 @@ app.get('/index', function (req, res) {
     fs.readdir(path, function (err, items) {
         for (let pic in items) {
             let filename = items[pic];
-            let modified = fs.statSync(path + "/" + filename).mtimeMs;  
+            let modified = fs.statSync(path + "/" + filename).mtimeMs;
         }
         res.render('index', {
             title: 'Kenziegram',
@@ -67,4 +65,9 @@ app.post('/upload', upload.single('myFile'), function (req, res, next) {
     });
 })
 
-app.listen(port);
+const DB_USER = "admin";
+const DB_PASSWORD = "admin";
+const DB_URI = `ds217350.mlab.com:17350`;
+const DB_NAME = "kenziegram-jake";
+
+app.listen(port, () => mongoose.connect(`mongodb://${DB_USER}:${DB_PASSWORD}@${DB_URI}/${DB_NAME}`));

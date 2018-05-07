@@ -23,6 +23,7 @@ function fetchImages() {
             after: now,
         })
     }
+    
     fetch("/update", postOptions)
         .then(response => response.json())
         .then(data => {
@@ -41,4 +42,4 @@ function fetchImages() {
           });
           console.log(errors)
 }
-var exicutionTimer = setInterval(fetchImages, interval);
+setInterval(fetchImages, interval);
